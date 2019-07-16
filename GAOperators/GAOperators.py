@@ -29,7 +29,6 @@ def initPop(Food_DF, Parents):
         for j in range(random.randint(8,16)):
             #Find Random Food
             randfood = random.randint(0,len(Food_DF.index))
-
             Meal_List[j] = randfood
 
         Population_DF.loc[i] = Meal_List
@@ -41,17 +40,28 @@ def initPop(Food_DF, Parents):
 
 
 
-# INPUT:  - population_df:
-# OUTPUT:
-# DESCRIPTION:
+# INPUT:  - population_df: population dataframe
+# OUTPUT:- new_population_df: population dataframe
+# DESCRIPTION:  when called function may or may not cause mutation
 def mutate (Population_df):
     new_population_df = Population_df.copy(deep=True)
 
     return new_population_df
 
 
-# INPUT:  - Food_DF:
-#         - Population_DF:
+# INPUT:  - population_df: population dataframe
+#         - Parent0
+#         - Parent1
+# OUTPUT:-
+# DESCRIPTION:
+def Crossover (Population_df,Parent0,Parent1):
+    new_population_df = Population_df.copy(deep=True)
+
+    return new_population_df
+
+
+# INPUT:  - Food_DF: Food database dataframe
+#         - Population_DF: population dataframe
 # OUTPUT: Outputs dataframe of population
 # DESCRIPTION: updates population nutrient information and fitness
 def update_Foodplan(Food_DF,population_DF):
