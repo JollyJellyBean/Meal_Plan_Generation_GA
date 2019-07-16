@@ -31,7 +31,5 @@ def import_DB(DB_DIR):
 def clean_DB (DB):
     new_DB = DB.copy(deep=True)
 
-    new_DB.dropna()
-
     return new_DB
 
