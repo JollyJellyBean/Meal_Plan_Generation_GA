@@ -16,7 +16,7 @@ def printstage(value):
 
 
 def main():
-    LOCAL_DIR = '/Users/Jake_Mawdsley/PycharmProjects/Meal_Plan_Generation_GA/'
+    LOCAL_DIR = './'
     DB_DIR = LOCAL_DIR + 'Database/FoodDB.csv'
 
 
