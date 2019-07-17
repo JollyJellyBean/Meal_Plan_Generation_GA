@@ -32,14 +32,17 @@ def main():
 
     printstage('Completing GA')
     for i in range(2):
-        print('Iteration',i)
-        #Mutate (Sid)
 
+        #Mutate (Sid)
+        Population_DF = GAOperators.mutate(Population_DF)
 
         #Evaluate Fitness of each chromosome(Sid)
 
 
         #Select Parents (Jake)
+        Population_DF = GAOperators.Select_Parents(Population_DF,Population_Number)
+
+        print(Population_DF)
 
         #Create new offspring, Crossover (Dave)
 

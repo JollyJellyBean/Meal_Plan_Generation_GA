@@ -126,27 +126,32 @@ def Select_Parents(Population_df,Population_Number):
     parent_DF.drop(parent_DF.index, inplace=True)
 
 
-
     for i in range(Population_Number):
         Parents = Population_df.copy(deep=True)
-        Parents.drop(parent_DF.index, inplace=True)
+        Parents.drop(Parents.index, inplace=True)
 
         Parents = Select_Parents_Roulette(Population_df)
-        parent_DF.append(Parents)
+
+        parent_DF= pd.concat([parent_DF, Parents])
+
+
 
     return parent_DF
 
 
 
 def Select_Parents_Roulette(Population_df):
-    parent_DF = Population_df.copy(deep=True)
-    parent_DF.drop(parent_DF.index, inplace=True)
 
-    Parents = Population_df.copy(deep=True)
-    Parents.drop(parent_DF.index, inplace=True)
+    Parent1_index = 2
+    Parent2_index = 2
 
-    Parents.append(Population_df.iloc[2])
-    Parents.append(Population_df.iloc[2])
+    Parent1 = Population_df.iloc[[Parent1_index]]
+    Parent2 = Population_df.iloc[[Parent2_index]]
 
+    Parent1 = Population_df.sample()
+    Parent2 = Population_df.sample()
+
+
+    Parents = pd.concat([Parent1, Parent2])
 
     return Parents
