@@ -15,7 +15,7 @@ import random
 #		 population - Matrix of individuals in the current population
 # OUTPUT:	crosschild - list with new offspring
 # DESCRIPTION:  Combines the genetic information of two parents to generate new offspring.
-def crossover(parents, options, nvars, fitness, score, population);
+def crossover_child(parents, options, nvars, fitness, score, population):
 	nChild = length(parents)/2;
 	crosschild = []
 	index = 1;
