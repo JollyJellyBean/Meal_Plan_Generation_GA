@@ -16,13 +16,13 @@ def printstage(value):
 
 
 def main():
-    LOCAL_DIR = './'
+    LOCAL_DIR = '/Users/Jake_Mawdsley/PycharmProjects/Meal_Plan_Generation_GA/'
     DB_DIR = LOCAL_DIR + 'Database/FoodDB.csv'
 
 
     #Import Database
     printstage('Importing Database')
-    Food_DF = DatabaseHelper.import_DB(DB_DIR)
+    Food_DF = DatabaseHelper.import_DB(DB_DIR) #(Sid Implement Cleanup)
 
 
     #Initialize Population
@@ -34,16 +34,16 @@ def main():
     for i in range(100):
         x=1
 
-        #Evaluate Fitness of each chromosome
+        #Evaluate Fitness of each chromosome(Sid)
 
 
-        #Mutate
+        #Mutate (Sid)
 
 
-        #Select Parents
+        #Select Parents (Jake)
 
 
-        #Create new offspring
+        #Create new offspring, Crossover (Dave)
 
 
 
