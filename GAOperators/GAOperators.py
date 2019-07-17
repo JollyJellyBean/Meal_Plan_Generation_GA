@@ -43,8 +43,17 @@ def initPop(Food_DF, Parents):
 # INPUT:  - population_df: population dataframe
 # OUTPUT:- new_population_df: population dataframe
 # DESCRIPTION:  when called function may or may not cause mutation
-def mutate (Population_df):
+def mutate (Population_df,food_df):
     new_population_df = Population_df.copy(deep=True)
+    food_df_size = food_df.size[0, :]
+
+    for row_index in new_population_df.iterrows():
+
+        var = random.randrange(1, 100, 1)
+        if var == 1:
+            column_index = random.randrange(0, 15, 1)
+            new_food = random.randrange(0, food_df_size, 1)
+            new_population_df[row_index, column_index] = new_food
 
     return new_population_df
 
@@ -120,7 +129,10 @@ def update_Foodplan(Food_DF,population_DF):
     return new_population_df
 
 
-
+# INPUT:  - Food_DF: Food database dataframe
+#         - Population_DF: population dataframe
+# OUTPUT: Outputs dataframe of population
+# DESCRIPTION: updates population nutrient information and fitness
 def Select_Parents(Population_df,Population_Number):
     parent_DF = Population_df.copy(deep=True)
     parent_DF.drop(parent_DF.index, inplace=True)
@@ -140,7 +152,9 @@ def Select_Parents(Population_df,Population_Number):
     return parent_DF
 
 
-
+# INPUT:  - Population_DF: population dataframe
+# OUTPUT: Outputs dataframe of population
+# DESCRIPTION: updates population nutrient information and fitness
 def Select_Parents_Roulette(Population_df):
     max = Population_df['Fitness'].sum()
     pick = random.uniform(0, max)

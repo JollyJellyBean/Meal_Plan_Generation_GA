@@ -16,7 +16,7 @@ import pandas as pd
 def import_DB(DB_DIR):
     print('importing From:', DB_DIR)
     Food_DF = pd.read_csv(DB_DIR)
-    Food_DF = clean_DB(Food_DF)
+    #Food_DF = clean_DB(Food_DF)
 
     return Food_DF
 
@@ -26,6 +26,7 @@ def import_DB(DB_DIR):
 # DESCRIPTION:
 def clean_DB (DB):
     new_DB = DB.copy(deep=True)
+    new_DB.dropna(inplace=True)
 
     return new_DB
 
