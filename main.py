@@ -15,7 +15,7 @@ def printstage(value):
     print('+------------------------------------------------------------+')
     print(value)
     print('+------------------------------------------------------------+')
-
+    print('')
 
 def main():
 	LOCAL_DIR = './'
@@ -40,6 +40,16 @@ def main():
 
 		#Select Parents (Jake)
 		Population_DF = GAOperators.Select_Parents(Population_DF, Population_Number)
+
+        #Mutate (Sid)
+        Population_DF = GAOperators.mutate(Population_DF,Food_DF)
+
+        #Evaluate Fitness of each chromosome(Sid)
+
+
+        #Select Parents (Jake)
+        Population_DF = GAOperators.Select_Parents(Population_DF,Population_Number)
+        print(Population_DF)
 
 		print(Population_DF)
 
