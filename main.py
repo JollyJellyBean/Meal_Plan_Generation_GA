@@ -20,41 +20,36 @@ def printstage(value):
 def main():
 	LOCAL_DIR = './'
 	DB_DIR = LOCAL_DIR + 'Database/FoodDB.csv'
-	Population_Number = 10
-	RECOMMENDED_DATA = [130,56,60] # [Carb, Protein, Fat] 19-30 year old man based off 1600 cal diet 
+	POPULATION_NUMBER = 10
+	RECOMMENDED_DATA = [130,56,60] # [Carb, Protein, Fat] 19-30 year old man based off 1600 cal diet
 
-	#Import Database
+	#Import Database and cleanup
 	printstage('Importing Database')
-	Food_DF = DatabaseHelper.import_DB(DB_DIR) #(Sid Implement Cleanup)
+	FOOD_DF = DatabaseHelper.import_DB(DB_DIR)
 
 	#Initialize Population
 	printstage('Intializing Population')
-	Population_DF = GAOperators.initPop(Food_DF,Population_Number)
+	population_df = GAOperators.initPop(FOOD_DF, POPULATION_NUMBER)
 
 	printstage('Completing GA')
-    for i in range(2):
-		Population_DF = GAOperators.mutate(population_Df)
+	for i in range(2):
+		population_df = GAOperators.mutate(population_df)
 
 		#Evaluate Fitness of each chromosome
-		fit_vals = fitness.fitness.value(population_df, Food_DF, RECOMMENDED_DATA)
+		fit_vals = fitness.fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA)
 
-		#Select Parents (Jake)
-		Population_DF = GAOperators.Select_Parents(Population_DF, Population_Number)
+		#Select Parents
+		population_df = GAOperators.Select_Parents(population_df, POPULATION_NUMBER)
 
-        #Mutate (Sid)
-        Population_DF = GAOperators.mutate(Population_DF,Food_DF)
+		#Mutate
+		population_df = GAOperators.mutate(population_df, FOOD_DF)
 
-        #Evaluate Fitness of each chromosome(Sid)
-
-
-        #Select Parents (Jake)
-        Population_DF = GAOperators.Select_Parents(Population_DF,Population_Number)
-        print(Population_DF)
-
+		#Select Parents
+		population_df = GAOperators.Select_Parents(population_df, POPULATION_NUMBER)
 		print(Population_DF)
 
-		#Create new offspring, Crossover 
-		child = crossover.crossover_child(parents, options, nvars, fitness, score, Population_DF)
+		#Create new offspring, Crossover
+		# child = crossover.crossover_child(parents, options, nvars, fitness, score, population_df)
 
 
 if __name__ == '__main__':
