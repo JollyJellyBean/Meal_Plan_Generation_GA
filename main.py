@@ -13,6 +13,8 @@ def printstage(value):
     print('+------------------------------------------------------------+')
     print(value)
     print('+------------------------------------------------------------+')
+    print('')
+
 
 
 def main():
@@ -34,14 +36,13 @@ def main():
     for i in range(2):
 
         #Mutate (Sid)
-        Population_DF = GAOperators.mutate(Population_DF)
+        Population_DF = GAOperators.mutate(Population_DF,Food_DF)
 
         #Evaluate Fitness of each chromosome(Sid)
 
 
         #Select Parents (Jake)
         Population_DF = GAOperators.Select_Parents(Population_DF,Population_Number)
-
         print(Population_DF)
 
         #Create new offspring, Crossover (Dave)
