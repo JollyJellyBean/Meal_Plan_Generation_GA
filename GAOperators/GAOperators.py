@@ -45,7 +45,7 @@ def initPop(Food_DF, Parents):
 # DESCRIPTION:  when called function may or may not cause mutation
 def mutate (Population_df,food_df):
     new_population_df = Population_df.copy(deep=True)
-    food_df_size = food_df.size[0, :]
+    food_df_size = len(food_df)
 
     for row_index in new_population_df.iterrows():
 
