@@ -89,7 +89,7 @@ def update_Foodplan(Food_DF,population_DF):
         Calcium = 0
         Iron = 0
         Sodium = 0
-        Cost = 0
+        Food_num = 0
 
         for i in range(16):
             Food_type = new_population_df.at[index,'Food'+ str(i)]
@@ -97,15 +97,15 @@ def update_Foodplan(Food_DF,population_DF):
             if(int(Food_type)<1):
                 Sodium +=0
             else:
-                Calories += (Food_DF.at[int(Food_type),'Energ_Kcal'])*(Food_DF.at[int(Food_type),'GmWt_2'])
-                Protein += (Food_DF.at[int(Food_type),'Protein_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])
-                Carbohydrates += (Food_DF.at[int(Food_type),'Carbohydrt_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])
-                Fat += (Food_DF.at[int(Food_type),'Lipid_Tot_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])
-                Cholesterol += (Food_DF.at[int(Food_type),'Cholestrl_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])
-                Calcium += (Food_DF.at[int(Food_type),'Calcium_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])
-                Iron += (Food_DF.at[int(Food_type),'Iron_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])
-                Sodium += (Food_DF.at[int(Food_type),'Sodium_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])
-                Cost +=1
+                Calories += (Food_DF.at[int(Food_type),'Energ_Kcal'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
+                Protein += (Food_DF.at[int(Food_type),'Protein_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
+                Carbohydrates += (Food_DF.at[int(Food_type),'Carbohydrt_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
+                Fat += (Food_DF.at[int(Food_type),'Lipid_Tot_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
+                Cholesterol += (Food_DF.at[int(Food_type),'Cholestrl_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
+                Calcium += (Food_DF.at[int(Food_type),'Calcium_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
+                Iron += (Food_DF.at[int(Food_type),'Iron_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
+                Sodium += (Food_DF.at[int(Food_type),'Sodium_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
+                Food_num +=1
 
         new_population_df.ix[index,'Calories'] = Calories
         new_population_df.ix[index,'Protein'] = Protein
@@ -115,6 +115,38 @@ def update_Foodplan(Food_DF,population_DF):
         new_population_df.ix[index,'Calcium'] = Calcium
         new_population_df.ix[index,'Iron'] = Iron
         new_population_df.ix[index,'Sodium'] = Sodium
-        new_population_df.ix[index,'# of Foods'] = Cost
+        new_population_df.ix[index,'# of Foods'] = Food_num
 
     return new_population_df
+
+
+
+def Select_Parents(Population_df,Population_Number):
+    parent_DF = Population_df.copy(deep=True)
+    parent_DF.drop(parent_DF.index, inplace=True)
+
+
+
+    for i in range(Population_Number):
+        Parents = Population_df.copy(deep=True)
+        Parents.drop(parent_DF.index, inplace=True)
+
+        Parents = Select_Parents_Roulette(Population_df)
+        parent_DF.append(Parents)
+
+    return parent_DF
+
+
+
+def Select_Parents_Roulette(Population_df):
+    parent_DF = Population_df.copy(deep=True)
+    parent_DF.drop(parent_DF.index, inplace=True)
+
+    Parents = Population_df.copy(deep=True)
+    Parents.drop(parent_DF.index, inplace=True)
+
+    Parents.append(Population_df.iloc[2])
+    Parents.append(Population_df.iloc[2])
+
+
+    return Parents

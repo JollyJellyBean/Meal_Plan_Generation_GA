@@ -16,8 +16,9 @@ def printstage(value):
 
 
 def main():
-    LOCAL_DIR = '/Users/Jake_Mawdsley/PycharmProjects/Meal_Plan_Generation_GA/'
+    LOCAL_DIR = './'
     DB_DIR = LOCAL_DIR + 'Database/FoodDB.csv'
+    Population_Number = 10
 
 
     #Import Database
@@ -27,21 +28,18 @@ def main():
 
     #Initialize Population
     printstage('Intializing Population')
-    Parent_Population_DF = GAOperators.initPop(Food_DF,100)
-    print(Parent_Population_DF)
+    Population_DF = GAOperators.initPop(Food_DF,Population_Number)
 
     printstage('Completing GA')
-    for i in range(100):
-        x=1
+    for i in range(2):
+        print('Iteration',i)
+        #Mutate (Sid)
+
 
         #Evaluate Fitness of each chromosome(Sid)
 
 
-        #Mutate (Sid)
-
-
         #Select Parents (Jake)
-
 
         #Create new offspring, Crossover (Dave)
 
