@@ -13,6 +13,8 @@ def printstage(value):
     print('+------------------------------------------------------------+')
     print(value)
     print('+------------------------------------------------------------+')
+    print('')
+
 
 
 def main():
@@ -41,7 +43,6 @@ def main():
 
         #Select Parents (Jake)
         Population_DF = GAOperators.Select_Parents(Population_DF,Population_Number)
-
         print(Population_DF)
 
         #Create new offspring, Crossover (Dave)
