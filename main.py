@@ -35,14 +35,11 @@ def main():
 	for i in range(2):
 		population_df = GAOperators.mutate(population_df)
 
-		#Evaluate Fitness of each chromosome
-		fit_vals = fitness.fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA)
-
-		#Select Parents
-		population_df = GAOperators.Select_Parents(population_df, POPULATION_NUMBER)
-
 		#Mutate
 		population_df = GAOperators.mutate(population_df, FOOD_DF)
+
+		#Evaluate Fitness of each chromosome
+		fit_vals = fitness.fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA)
 
 		#Select Parents
 		population_df = GAOperators.Select_Parents(population_df, POPULATION_NUMBER)
