@@ -22,7 +22,7 @@ def fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA):
 
         meal_df = population_df.iloc[:,[17,18,19]]
 
-        carb_fitness = abs(meal_df.loc[:, 'Carbohydrates'] - RECOMMENDED_DATA[0]) / RECOMMENDED_DATA[0] # Percent Difference
+        carb_fitness = abs(meal_df.loc[:, 'Carbohydrates'] - RECOMMENDED_DATA[0])/RECOMMENDED_DATA[0] # Percent Difference
         protein_fitness =  abs(meal_df.loc[:,'Protein'] - RECOMMENDED_DATA[1])/RECOMMENDED_DATA[1]
         fat_fitness = abs(meal_df.loc[:,'Fat'] - RECOMMENDED_DATA[2])/RECOMMENDED_DATA[2]
 
@@ -30,9 +30,9 @@ def fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA):
 
         fitness_df['Sum'] = fitness_df.iloc[:,0]+fitness_df.iloc[:,1]+fitness_df.iloc[:,2]
 
-        fitness_df['Inverse'] = 1/fitness_df.loc[:,'sum'] # return inverse for optimization function to find max
+        fitness_df['Inverse'] = 1/fitness_df.loc[:,'Sum'] # return inverse for optimization function to find max
 
-        population_df['Fitness'] = fitness_df["inverse"]
+        population_df['Fitness'] = fitness_df["Inverse"]
 
     return population_df
 
