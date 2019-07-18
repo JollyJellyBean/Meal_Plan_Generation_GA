@@ -44,16 +44,27 @@ def initPop(Food_DF, Parents):
 # OUTPUT:- new_population_df: population dataframe
 # DESCRIPTION:  when called function may or may not cause mutation
 def mutate (Population_df,food_df):
+
     new_population_df = Population_df.copy(deep=True)
     food_df_size = len(food_df)
 
-    for row_index in new_population_df.iterrows():
 
-        var = random.randrange(1, 100, 1)
+
+
+    i = 0
+    for row_index  in new_population_df.iterrows():
+
+        var = random.randrange(1, 10, 1)
         if var == 1:
             column_index = random.randrange(0, 15, 1)
-            new_food = random.randrange(0, food_df_size, 1)
-            new_population_df[row_index, column_index] = new_food
+            new_food = random.randrange(0,food_df_size, 1)
+
+            new_population_df.iat[i,column_index] = new_food
+            #new_population_df.ix[row_index,column_index] = new_food
+        i = i+1
+
+
+
 
     return new_population_df
 
