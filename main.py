@@ -8,7 +8,7 @@
 
 import GAOperators
 import DatabaseHelper
-#import fitness
+import fitness
 #import crossover
 
 def printstage(value):
@@ -19,7 +19,7 @@ def printstage(value):
 
 def main():
 	LOCAL_DIR = './'
-	DB_DIR = LOCAL_DIR + 'Database/FoodDB.csv'
+	DB_DIR = LOCAL_DIR + 'FoodDB.csv'
 	POPULATION_NUMBER = 10
 	RECOMMENDED_DATA = [130,56,60] # [Carb, Protein, Fat] 19-30 year old man based off 1600 cal diet
 
@@ -29,7 +29,7 @@ def main():
 
 	#Initialize Population
 	printstage('Intializing Population')
-	population_df = GAOperators.initPop(FOOD_DF, POPULATION_NUMBER)
+	population_df = GAOperators.initPop(FOOD_DF, POPULATION_NUMBER) # Population of different meals and associated nutritional values
 
 	printstage('Completing GA')
 	for i in range(2):
@@ -38,8 +38,8 @@ def main():
 		#Mutate
 		population_df = GAOperators.mutate(population_df, FOOD_DF)
 
-		#Evaluate Fitness of each chromosome
-		#fit_vals = fitness.fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA)
+		#Evaluate Fitness of each chromosome and attach fit function to df
+		population_df = fitness.fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA)
 
 		#Select Parents
 		population_df = GAOperators.Select_Parents(population_df, POPULATION_NUMBER)
