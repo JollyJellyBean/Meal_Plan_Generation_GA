@@ -47,14 +47,9 @@ def main():
 
 		# Select Parents
 		population_df = GAOperators.Select_Parents(population_df, POPULATION_NUMBER)
-<<<<<<< HEAD
-		population_df = GAOperators.crossover(population_df)
-		print(population_df)
-=======
->>>>>>> master
 
 		# Create new offspring, Crossover
-		# child = crossover.crossover_child(parents, options, nvars, fitness, score, population_df)
+		population_df = GAOperators.crossover(population_df)
 
 
 if __name__ == '__main__':
