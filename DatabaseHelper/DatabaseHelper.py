@@ -6,27 +6,23 @@
 #                                                               #
 #################################################################
 
-import pandas as pd
 
-
-# INPUT:  - Food_DF:
-#         - Parents:
-# OUTPUT:
+# INPUT: - dirty_df:
+#        - Parents:
+# OUTPUT: -clean_df
 # DESCRIPTION:
-def import_DB(DB_DIR):
-    print('importing From:', DB_DIR)
-    Food_DF = pd.read_csv(DB_DIR)
-    #Food_DF = clean_DB(Food_DF)
+def preprocess_DB (dirty_df):
+    # Drop rows where protein, carbohydrates and fats are 0
+    clean_df = dirty_df[(dirty_df['Protein_(g)'] != 0) |
+                        (dirty_df['Carbohydrt_(g)'] != 0) |
+                        (dirty_df[ 'Lipid_Tot_(g)'] != 0)]
 
-    return Food_DF
+    dropped_df = dirty_df[(dirty_df['Protein_(g)'] == 0) &
+                          (dirty_df['Carbohydrt_(g)'] == 0) &
+                          (dirty_df[ 'Lipid_Tot_(g)'] == 0)]
 
-# INPUT:  - Food_DF:
-#         - Parents:
-# OUTPUT:
-# DESCRIPTION:
-def clean_DB (DB):
-    new_DB = DB.copy(deep=True)
-    new_DB.dropna(inplace=True)
+    print(str(len(dropped_df))+" foods dropped where protein, carbohydrates and fats are 0")
+    print(dropped_df['Shrt_Desc'])
 
-    return new_DB
+    return clean_df
 

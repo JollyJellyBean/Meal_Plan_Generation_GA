@@ -14,17 +14,15 @@ import numpy
 #        RECOMMENDED_DATA - Array of the recommended nutritional information [Carb, Protein, Fat]
 # OUTPUT: fitness - Fitness evaluation for the given population_df where higher fitness is desirable
 # DESCRIPTION:  Evaluates fitness based on the differences from the individual meal and recommended daily nutritional intake of protein, carbohydrates, and fats
-def fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA):
+def fitness_value(population_df, RECOMMENDED_DATA):
 
     for row in range(population_df.shape[0]):
 
-        RECOMMENDED_DATA #[Carb, Protein, Fat]
-
         meal_df = population_df.iloc[:,[17,18,19]]
 
-        carb_fitness = abs(meal_df.loc[:, 'Carbohydrates'] - RECOMMENDED_DATA[0])/RECOMMENDED_DATA[0] # Percent Difference
-        protein_fitness =  abs(meal_df.loc[:,'Protein'] - RECOMMENDED_DATA[1])/RECOMMENDED_DATA[1]
-        fat_fitness = abs(meal_df.loc[:,'Fat'] - RECOMMENDED_DATA[2])/RECOMMENDED_DATA[2]
+        carb_fitness = abs(meal_df.loc[:, 'Carbohydrates'] - RECOMMENDED_DATA[0])/RECOMMENDED_DATA[0] # Carbohydrate percent Difference from recommended
+        protein_fitness =  abs(meal_df.loc[:,'Protein'] - RECOMMENDED_DATA[1])/RECOMMENDED_DATA[1] # Protein percent Difference from recommended
+        fat_fitness = abs(meal_df.loc[:,'Fat'] - RECOMMENDED_DATA[2])/RECOMMENDED_DATA[2] # Fat percent Difference from recommended
 
         fitness_df = pandas.DataFrame(carb_fitness).join(protein_fitness).join(fat_fitness)
 
