@@ -48,13 +48,10 @@ def mutate (Population_df,food_df):
     new_population_df = Population_df.copy(deep=True)
     food_df_size = len(food_df)
 
-
-
-
     i = 0
     for row_index  in new_population_df.iterrows():
 
-        var = random.randrange(1, 10, 1)
+        var = random.randrange(1, 100, 1)
         if var == 1:
             column_index = random.randrange(0, 15, 1)
             new_food = random.randrange(0,food_df_size, 1)
@@ -71,15 +68,13 @@ def mutate (Population_df,food_df):
 def crossover(df):
 
     population_df = df.copy(deep=True)
+    #population_df = split_tail(population_df,0,1)
+    iterator =int(population_df.shape[0]/2)
 
-    for i, row in population_df.iterrows():
-        print(i)
-
-
-
+    for i in range(iterator):
+        j = i*2
+        population_df = split_tail(population_df,j,j+1)
     return population_df
-
-
 # INPUT:  - population_df: population dataframe
 #         - Parent0
 #         - Parent1
@@ -88,12 +83,10 @@ def crossover(df):
 
 def split_tail (Population_df,Parent0,Parent1):
     new_population_df = Population_df.copy(deep=True)
-    P0= new_population_df.iloc[Parent0].values
-    P1= new_population_df.iloc[Parent1].values
-    new_population_df.iat[Parent0, 8:15] = P0[8:15]
-    new_population_df.iat[Parent1, 8:15] = P1[8:15]
-    print()
-
+    P0 = new_population_df.iloc[Parent0].values
+    P1 = new_population_df.iloc[Parent1].values
+    new_population_df.loc[Parent0,8:16] = P1[8:16]
+    new_population_df.loc[Parent1,8:16] = P0[8:16]
     return new_population_df
 
 
@@ -167,8 +160,8 @@ def Select_Parents(Population_df,Population_Number):
     pop_div_two = int(Population_Number/2)
 
     for i in range(pop_div_two):
-        Parent1_index = Select_Parents_Roulette(Population_df)
-        Parent2_index = Select_Parents_Roulette(Population_df)
+        Parent1_index = select_parents_tournament(Population_df)
+        Parent2_index = select_parents_tournament(Population_df)
 
         Parent1 = Population_df.iloc[[Parent1_index]]
         Parent2 = Population_df.iloc[[Parent2_index]]
@@ -180,16 +173,28 @@ def Select_Parents(Population_df,Population_Number):
     return parent_DF
 
 
-# INPUT:  - Population_DF: population dataframe
-# OUTPUT: Outputs dataframe of population
-# DESCRIPTION: updates population nutrient information and fitness
-def Select_Parents_Roulette(Population_df):
-    max = Population_df['Fitness'].sum()
+# INPUT:  - df: population dataframe
+# OUTPUT:  - index: Outputs index of a parent(int)
+# DESCRIPTION: Uses proportional Roulette wheel to determine parent
+def select_parents_roulette(df):
+    # define roulette wheel position(pick)
+    max = df['Fitness'].sum()
     pick = random.uniform(0, max)
     current = 0
 
-    for index, row in Population_df.iterrows():
-        current += Population_df.ix[index,'Fitness']
+    # determine what index the position(pick) corresponds to
+    for index, row in df.iterrows():
+        current += df.ix[index, 'Fitness']
         if current >= pick:
             return index
 
+
+# INPUT:  - df: population dataframe
+# OUTPUT: - index: Outputs index of a parent(int)
+# DESCRIPTION: Uses tournament to determine parent
+def select_parents_tournament(df):
+    tournament_df = df.copy(deep=True)
+    tournament_df = tournament_df.sample(n=2)
+    index = int(tournament_df['Fitness'].idxmax())
+
+    return index
