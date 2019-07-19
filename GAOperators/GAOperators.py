@@ -64,9 +64,20 @@ def mutate (Population_df,food_df):
         i = i+1
 
 
-
-
     return new_population_df
+
+
+
+def crossover(df):
+
+    population_df = df.copy(deep=True)
+
+    for i, row in population_df.iterrows():
+        print(i)
+
+
+
+    return population_df
 
 
 # INPUT:  - population_df: population dataframe
@@ -74,8 +85,14 @@ def mutate (Population_df,food_df):
 #         - Parent1
 # OUTPUT:-
 # DESCRIPTION:
-def Crossover (Population_df,Parent0,Parent1):
+
+def split_tail (Population_df,Parent0,Parent1):
     new_population_df = Population_df.copy(deep=True)
+    P0= new_population_df.iloc[Parent0].values
+    P1= new_population_df.iloc[Parent1].values
+    new_population_df.iat[Parent0, 8:15] = P0[8:15]
+    new_population_df.iat[Parent1, 8:15] = P1[8:15]
+    print()
 
     return new_population_df
 
@@ -98,7 +115,6 @@ def update_Foodplan(Food_DF,population_DF):
     new_population_df['Cost'] = 0
     new_population_df['# of Foods'] = 0
     new_population_df['Fitness'] = 0
-
 
     for index, row in new_population_df.iterrows():
         Calories = 0
@@ -148,8 +164,9 @@ def Select_Parents(Population_df,Population_Number):
     parent_DF = Population_df.copy(deep=True)
     parent_DF.drop(parent_DF.index, inplace=True)
 
+    pop_div_two = int(Population_Number/2)
 
-    for i in range(Population_Number):
+    for i in range(pop_div_two):
         Parent1_index = Select_Parents_Roulette(Population_df)
         Parent2_index = Select_Parents_Roulette(Population_df)
 

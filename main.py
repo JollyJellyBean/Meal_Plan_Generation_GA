@@ -8,8 +8,8 @@
 
 import GAOperators
 import DatabaseHelper
-import fitness
-import crossover
+#import fitness
+#import crossover
 
 def printstage(value):
     print('+------------------------------------------------------------+')
@@ -33,17 +33,18 @@ def main():
 
 	printstage('Completing GA')
 	for i in range(2):
-		population_df = GAOperators.mutate(population_df)
+		population_df = GAOperators.mutate(population_df,FOOD_DF)
 
 		#Mutate
 		population_df = GAOperators.mutate(population_df, FOOD_DF)
 
 		#Evaluate Fitness of each chromosome
-		fit_vals = fitness.fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA)
+		#fit_vals = fitness.fitness_value(population_df, FOOD_DF, RECOMMENDED_DATA)
 
 		#Select Parents
 		population_df = GAOperators.Select_Parents(population_df, POPULATION_NUMBER)
-		print(Population_DF)
+		population_df = GAOperators.crossover(population_df)
+		print(population_df)
 
 		#Create new offspring, Crossover
 		# child = crossover.crossover_child(parents, options, nvars, fitness, score, population_df)
