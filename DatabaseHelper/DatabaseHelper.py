@@ -12,17 +12,21 @@
 # OUTPUT: -clean_df
 # DESCRIPTION:
 def preprocess_DB (dirty_df):
-    # Drop rows where protein, carbohydrates and fats are 0
-    clean_df = dirty_df[(dirty_df['Protein_(g)'] != 0) |
-                        (dirty_df['Carbohydrt_(g)'] != 0) |
-                        (dirty_df[ 'Lipid_Tot_(g)'] != 0)]
-
-    dropped_df = dirty_df[(dirty_df['Protein_(g)'] == 0) &
-                          (dirty_df['Carbohydrt_(g)'] == 0) &
-                          (dirty_df[ 'Lipid_Tot_(g)'] == 0)]
-
-    print(str(len(dropped_df))+" foods dropped where protein, carbohydrates and fats are 0")
-    print(dropped_df['Shrt_Desc'])
+    clean_df = dirty_df.copy(deep=True)
 
     return clean_df
+
+def print_fooditems(food_df, pop_df, index):
+    for i in range(16):
+        if (int(pop_df.loc[index,'Food'+str(i)]) > 0):
+            print('Food'+str(i),': ')
+            print(food_df.loc[pop_df.loc[index,'Food'+str(i)],'Weight (g)'],' grams of ',food_df.loc[pop_df.loc[index,'Food'+str(i)],'Food Name'])
+            print('')
+        else:
+            return
+
+
+
+
+
 

@@ -6,7 +6,8 @@
 #                                                               
 #################################################################
 import pandas 
-import numpy 
+import numpy
+
 
 	
 # INPUT: population_df - Population dataframe of meals to be evaluated for fitness
@@ -18,7 +19,7 @@ def fitness_value(population_df, RECOMMENDED_DATA):
 
     for row in range(population_df.shape[0]):
 
-        meal_df = population_df.iloc[:,[17,18,19]]
+        meal_df = population_df.iloc[:,[16,17,18]]
 
         carb_fitness = abs(meal_df.loc[:, 'Carbohydrates'] - RECOMMENDED_DATA[0])/RECOMMENDED_DATA[0] # Carbohydrate percent Difference from recommended
         protein_fitness =  abs(meal_df.loc[:,'Protein'] - RECOMMENDED_DATA[1])/RECOMMENDED_DATA[1] # Protein percent Difference from recommended

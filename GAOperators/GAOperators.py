@@ -15,8 +15,7 @@ import random
 # DESCRIPTION:
 def initPop(Food_DF, Parents):
 
-
-    Population_DF = pd.DataFrame(columns=['Food0','Food1','Food2','Food3','Food4','Food5','Food6','Food7','Food8','Food9','Food10','Food11','Food12','Food13','Food14','Food15'])
+    population_DF = pd.DataFrame(columns=['Food0','Food1','Food2','Food3','Food4','Food5','Food6','Food7','Food8','Food9','Food10','Food11','Food12','Food13','Food14','Food15'])
 
     #For total number of parents
     for i in range(Parents):
@@ -24,26 +23,24 @@ def initPop(Food_DF, Parents):
         # init meal plan list
         Meal_List = ['0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0']
 
-
-        #For random number of food items between 8 and 16
+        # For random number of food items between 8 and 16
         for j in range(random.randint(8,16)):
             #Find Random Food
-            randfood = random.randint(0,len(Food_DF.index))
+            randfood = random.randint(0,len(Food_DF.index)-1)
             Meal_List[j] = randfood
 
-        Population_DF.loc[i] = Meal_List
+        population_DF.loc[i] = Meal_List
         Meal_List.clear()
 
-    Population_DF = update_Foodplan(Food_DF,Population_DF)
+    population_DF = update_Foodplan(Food_DF,population_DF)
 
-    return Population_DF
-
+    return population_DF
 
 
 # INPUT:  - population_df: population dataframe
 # OUTPUT:- new_population_df: population dataframe
 # DESCRIPTION:  when called function may or may not cause mutation
-def mutate (Population_df,food_df):
+def mutate (Population_df,food_df,MUTATE_CHANCE):
 
     new_population_df = Population_df.copy(deep=True)
     food_df_size = len(food_df)
@@ -51,13 +48,12 @@ def mutate (Population_df,food_df):
     i = 0
     for row_index  in new_population_df.iterrows():
 
-        var = random.randrange(1, 100, 1)
+        var = random.randrange(MUTATE_CHANCE, 100, 1)
         if var == 1:
             column_index = random.randrange(0, 15, 1)
             new_food = random.randrange(0,food_df_size, 1)
 
             new_population_df.iat[i,column_index] = new_food
-            #new_population_df.ix[row_index,column_index] = new_food
         i = i+1
 
 
@@ -66,27 +62,39 @@ def mutate (Population_df,food_df):
 
 
 def crossover(df):
-
     population_df = df.copy(deep=True)
+
     #population_df = split_tail(population_df,0,1)
     iterator =int(population_df.shape[0]/2)
 
     for i in range(iterator):
         j = i*2
         population_df = split_tail(population_df,j,j+1)
+
     return population_df
+
 # INPUT:  - population_df: population dataframe
 #         - Parent0
 #         - Parent1
 # OUTPUT:-
 # DESCRIPTION:
-
 def split_tail (Population_df,Parent0,Parent1):
     new_population_df = Population_df.copy(deep=True)
+
+    # Define lowest # of foods in two parents
+    lowest_pop = min(new_population_df.loc[Parent0,'# of Foods'],new_population_df.loc[Parent1,'# of Foods'])
+
+    # Define crossover point
+    crossover_pt = int(random.uniform(0,lowest_pop))
+
+    # Define parent row values in array
     P0 = new_population_df.iloc[Parent0].values
     P1 = new_population_df.iloc[Parent1].values
-    new_population_df.loc[Parent0,8:16] = P1[8:16]
-    new_population_df.loc[Parent1,8:16] = P0[8:16]
+
+    new_population_df.loc[Parent0,crossover_pt:15] = P1[crossover_pt:15]
+    new_population_df.loc[Parent1,crossover_pt:15] = P0[crossover_pt:15]
+
+    # Return modified population dataframe
     return new_population_df
 
 
@@ -97,54 +105,31 @@ def split_tail (Population_df,Parent0,Parent1):
 def update_Foodplan(Food_DF,population_DF):
     new_population_df = population_DF.copy(deep=True)
 
-    new_population_df['Calories'] = 0
     new_population_df['Protein'] = 0
     new_population_df['Carbohydrates'] = 0
     new_population_df['Fat'] = 0
-    new_population_df['Cholesterol'] = 0
-    new_population_df['Calcium'] = 0
-    new_population_df['Iron'] = 0
-    new_population_df['Sodium'] = 0
-    new_population_df['Cost'] = 0
-    new_population_df['# of Foods'] = 0
-    new_population_df['Fitness'] = 0
 
     for index, row in new_population_df.iterrows():
-        Calories = 0
         Protein = 0
         Carbohydrates = 0
         Fat = 0
-        Cholesterol = 0
-        Calcium = 0
-        Iron = 0
-        Sodium = 0
         Food_num = 0
 
         for i in range(16):
             Food_type = new_population_df.at[index,'Food'+ str(i)]
 
             if(int(Food_type)<1):
-                Sodium +=0
+                pass
             else:
-                Calories += (Food_DF.at[int(Food_type),'Energ_Kcal'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
-                Protein += (Food_DF.at[int(Food_type),'Protein_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
-                Carbohydrates += (Food_DF.at[int(Food_type),'Carbohydrt_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
-                Fat += (Food_DF.at[int(Food_type),'Lipid_Tot_(g)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
-                Cholesterol += (Food_DF.at[int(Food_type),'Cholestrl_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
-                Calcium += (Food_DF.at[int(Food_type),'Calcium_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
-                Iron += (Food_DF.at[int(Food_type),'Iron_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
-                Sodium += (Food_DF.at[int(Food_type),'Sodium_(mg)'])*(Food_DF.at[int(Food_type),'GmWt_2'])/100
-                Food_num +=1
+                Protein += (Food_DF.at[int(Food_type),'Protein (g)'])
+                Carbohydrates += (Food_DF.at[int(Food_type),'Carbohydrate (g)'])
+                Fat += (Food_DF.at[int(Food_type),'Total Fat (g)'])
+                Food_num += 1
 
-        new_population_df.ix[index,'Calories'] = Calories
-        new_population_df.ix[index,'Protein'] = Protein
-        new_population_df.ix[index,'Carbohydrates'] = Carbohydrates
-        new_population_df.ix[index,'Fat'] = Fat
-        new_population_df.ix[index,'Cholesterol'] = Cholesterol
-        new_population_df.ix[index,'Calcium'] = Calcium
-        new_population_df.ix[index,'Iron'] = Iron
-        new_population_df.ix[index,'Sodium'] = Sodium
-        new_population_df.ix[index,'# of Foods'] = Food_num
+        new_population_df.at[index,'Protein'] = Protein
+        new_population_df.at[index,'Carbohydrates'] = Carbohydrates
+        new_population_df.at[index,'Fat'] = Fat
+        new_population_df.at[index,'# of Foods'] = Food_num
 
     return new_population_df
 
@@ -160,8 +145,8 @@ def Select_Parents(Population_df,Population_Number):
     pop_div_two = int(Population_Number/2)
 
     for i in range(pop_div_two):
-        Parent1_index = select_parents_tournament(Population_df)
-        Parent2_index = select_parents_tournament(Population_df)
+        Parent1_index = select_parents_roulette(Population_df)
+        Parent2_index = select_parents_roulette(Population_df)
 
         Parent1 = Population_df.iloc[[Parent1_index]]
         Parent2 = Population_df.iloc[[Parent2_index]]
@@ -194,7 +179,7 @@ def select_parents_roulette(df):
 # DESCRIPTION: Uses tournament to determine parent
 def select_parents_tournament(df):
     tournament_df = df.copy(deep=True)
-    tournament_df = tournament_df.sample(n=2)
+    tournament_df = tournament_df.sample(n=10)
     index = int(tournament_df['Fitness'].idxmax())
 
     return index
